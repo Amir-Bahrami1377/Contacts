@@ -1,0 +1,28 @@
+﻿@using Contacts.ViewModels.Phones
+@model PhoneCreateEditVM
+
+<h3>پاک بشه ؟</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            <h4>: شماره تماس</h4>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="بلی" class="btn btn-danger" />
+            @Html.ActionLink("برگشت", "Index", new { id = Model.Contact.ID }, new { @class = "btn btn-secondary" })
+        </div>
+    }
+</div>

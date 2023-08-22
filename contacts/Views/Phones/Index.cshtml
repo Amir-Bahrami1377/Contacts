@@ -1,0 +1,41 @@
+﻿@using Contacts.ViewModels.Phones
+@model PhonesListVM
+
+@{
+    ViewBag.Title = "شماره های مخاطب";
+}
+
+<h2>@Model.Contact.FullName</h2>
+
+<p>
+    @Html.ActionLink("افزودن شماره", "CreateEdit", new { contactId = Model.Contact.ID }, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-hover table-borderless">
+    <thead class="table-light">
+        <tr>
+            <th>
+                :شماره های تماس
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.Entities)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.ActionLink("ویرایش", "CreateEdit", new { id = item.ID }, new { @class = "btn btn-outline-success" })
+                @Html.ActionLink("حذف", "Delete", new { id = item.ID }, new { @class = "btn btn-outline-danger" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    @Html.ActionLink("بازگشت", "Index", "Contacts", null, new { @class = "btn btn-secondary" })
+</div>

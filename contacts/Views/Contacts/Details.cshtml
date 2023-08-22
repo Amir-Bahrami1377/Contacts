@@ -1,0 +1,37 @@
+﻿@using Contacts.ViewModels.Contacts
+@model ContactCreateEditVM
+
+<div>
+    <br />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("ویرایش", "CreateEdit", new { id = Model.ID }, new { @class = "btn btn-success" })
+    @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-secondary" })
+</p>
