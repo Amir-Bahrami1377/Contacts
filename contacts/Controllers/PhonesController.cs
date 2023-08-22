@@ -52,30 +52,6 @@ namespace Contacts.Controllers
             return HttpNotFound();
         }
 
-        public ActionResult Details(int? id) //phoneID
-        {
-            if (id != null)
-            {
-                PhoneRepository phoneRepo = new PhoneRepository();
-
-                Phone phone = phoneRepo.GetById(id.Value);
-
-                if (phone != null && CheckIfContactsUserIsLogged(phone))
-                {
-                    PhoneCreateEditVM p = new PhoneCreateEditVM()
-                    {
-                        ID = phone.ID,
-                        Contact = phone.Contact,
-                        PhoneNumber = phone.PhoneNumber
-                    };
-
-                    return View(p);
-                }
-            }
-
-            return HttpNotFound();
-        }
-
         public ActionResult CreateEdit(int? id, int? contactId)
         {
             if (id == null && contactId != null) // Create
