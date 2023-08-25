@@ -7,13 +7,13 @@ namespace Contacts.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class firstMG : IMigrationMetadata
+    public sealed partial class MigOne : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(firstMG));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MigOne));
         
         string IMigrationMetadata.Id
         {
-            get { return "202308211958155_firstMG"; }
+            get { return "202308241947402_MigOne"; }
         }
         
         string IMigrationMetadata.Source

@@ -11,6 +11,7 @@ using System.Web.Routing;
 using Contacts.ViewModels.Contacts;
 using Contacts.Repository;
 using Contacts.Filters;
+using AutoMapper;
 
 namespace Contacts.Controllers
 {
@@ -65,13 +66,15 @@ namespace Contacts.Controllers
 
                 if (contact != null && contact.UserID == AuthenticationService.LoggedUser.ID)
                 {
-                    ContactCreateEditVM model = new ContactCreateEditVM()
-                    {
-                        ID = contact.ID,
-                        FirstName = contact.FirstName,
-                        LastName = contact.LastName,
-                        Email = contact.Email
-                    };
+                    var mapper = Mapper.Instance;
+                    var model = mapper.Map<ContactCreateEditVM>(contact);
+                    //ContactCreateEditVM model = new ContactCreateEditVM()
+                    //{
+                    //    ID = contact.ID,
+                    //    FirstName = contact.FirstName,
+                    //    LastName = contact.LastName,
+                    //    Email = contact.Email
+                    //};
                     return View(model);
                 }
             }
@@ -98,14 +101,16 @@ namespace Contacts.Controllers
 
                 if (contact != null && contact.UserID == AuthenticationService.LoggedUser.ID)
                 {
-                    ContactCreateEditVM model = new ContactCreateEditVM()
-                    {
-                        ID = contact.ID,
-                        UserID = contact.UserID,
-                        FirstName = contact.FirstName,
-                        LastName = contact.LastName,
-                        Email = contact.Email
-                    };
+                    var mapper = Mapper.Instance;
+                    var model = mapper.Map<ContactCreateEditVM>(contact);
+                    //ContactCreateEditVM model = new ContactCreateEditVM()
+                    //{
+                    //    ID = contact.ID,
+                    //    UserID = contact.UserID,
+                    //    FirstName = contact.FirstName,
+                    //    LastName = contact.LastName,
+                    //    Email = contact.Email
+                    //};
                     return View(model);
                 }
             }
@@ -168,13 +173,15 @@ namespace Contacts.Controllers
 
                 if (contact != null && contact.UserID == AuthenticationService.LoggedUser.ID)
                 {
-                    ContactCreateEditVM model = new ContactCreateEditVM()
-                    {
-                        ID = contact.ID,
-                        FirstName = contact.FirstName,
-                        LastName = contact.LastName,
-                        Email = contact.Email
-                    };
+                    var mapper = Mapper.Instance;
+                    var model = mapper.Map<ContactCreateEditVM>(contact);
+                    //ContactCreateEditVM model = new ContactCreateEditVM()
+                    //{
+                    //    ID = contact.ID,
+                    //    FirstName = contact.FirstName,
+                    //    LastName = contact.LastName,
+                    //    Email = contact.Email
+                    //};
                     return View(model);
                 }
             }

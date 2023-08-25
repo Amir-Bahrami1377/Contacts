@@ -4,6 +4,8 @@ using Contacts.ViewModels.Phones;
 using Contacts.Services;
 using Contacts.Filters;
 using System.Web.Mvc;
+using AutoMapper;
+using Contacts.ViewModels.Contacts;
 
 namespace Contacts.Controllers
 {
@@ -75,13 +77,15 @@ namespace Contacts.Controllers
 
                 if (phone != null && CheckIfContactsUserIsLogged(phone))
                 {
-                    PhoneCreateEditVM p = new PhoneCreateEditVM()
-                    {
-                        ID = phone.ID,
-                        Contact = phone.Contact,
-                        ContactID = phone.ContactID,
-                        PhoneNumber = phone.PhoneNumber
-                    };
+                    var mapper = Mapper.Instance;
+                    var p = mapper.Map<PhoneCreateEditVM>(phone);
+                    //PhoneCreateEditVM p = new PhoneCreateEditVM()
+                    //{
+                    //    ID = phone.ID,
+                    //    Contact = phone.Contact,
+                    //    ContactID = phone.ContactID,
+                    //    PhoneNumber = phone.PhoneNumber
+                    //};
 
                     return View(p);
                 }
@@ -147,12 +151,14 @@ namespace Contacts.Controllers
 
                 if (phone != null && CheckIfContactsUserIsLogged(phone))
                 {
-                    PhoneCreateEditVM p = new PhoneCreateEditVM()
-                    {
-                        ID = phone.ID,
-                        Contact = phone.Contact,
-                        PhoneNumber = phone.PhoneNumber
-                    };
+                    var mapper = Mapper.Instance;
+                    var p = mapper.Map<PhoneCreateEditVM>(phone);
+                    //PhoneCreateEditVM p = new PhoneCreateEditVM()
+                    //{
+                    //    ID = phone.ID,
+                    //    Contact = phone.Contact,
+                    //    PhoneNumber = phone.PhoneNumber
+                    //};
 
                     return View(p);
                 }
