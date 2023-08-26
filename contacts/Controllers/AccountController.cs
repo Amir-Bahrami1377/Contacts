@@ -1,5 +1,4 @@
 ﻿using Contacts.Models;
-using Contacts.Repository;
 using Contacts.ViewModels.Account;
 using System.Linq;
 using Contacts.Services;
@@ -59,7 +58,8 @@ namespace Contacts.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserRepository userRepo = new UserRepository();
+                //UserRepository userRepo = new UserRepository();
+                UnitOfWork unitOfWork = new UnitOfWork();
 
                 User user = new User()
                 {
@@ -70,7 +70,8 @@ namespace Contacts.Controllers
 
                 bool userDoesntExist = true;
 
-                User userUsername = userRepo.GetAll(us => us.Username == model.Username).FirstOrDefault();
+                //User userUsername = userRepo.GetAll(us => us.Username == model.Username).FirstOrDefault();
+                User userUsername = unitOfWork.UserRepository.GetAllUsers(us => us.Username == model.Username).FirstOrDefault();
 
                 if (userUsername != null)
                 {
@@ -80,7 +81,7 @@ namespace Contacts.Controllers
 
                 user.Username = model.Username;
 
-                User userEmail = userRepo.GetAll(us => us.Email == model.Email).FirstOrDefault();
+                User userEmail = unitOfWork.UserRepository.GetAllUsers(us => us.Email == model.Email).FirstOrDefault();
 
                 if (userEmail != null)
                 {
@@ -92,7 +93,7 @@ namespace Contacts.Controllers
 
                 if (userDoesntExist)
                 {
-                    userRepo.Save(user);
+                    unitOfWork.UserRepository.InsertUser(user);
 
                     return RedirectToAction("Login");
                 }

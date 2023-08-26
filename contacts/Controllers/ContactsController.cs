@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Contacts.ViewModels.Contacts;
-using Contacts.Repository;
 using Contacts.Filters;
 using AutoMapper;
 
@@ -23,8 +22,9 @@ namespace Contacts.Controllers
             ContactsListVM model = new ContactsListVM();
 
             TryUpdateModel(model);
+            UnitOfWork unitOfWork = new UnitOfWork();
 
-            ContactRepository contactRepo = new ContactRepository();
+            //ContactRepository contactRepo = new ContactRepository();
 
             User user = AuthenticationService.LoggedUser;
 
@@ -44,8 +44,8 @@ namespace Contacts.Controllers
                 filter = c => c.UserID == user.ID;
             }
 
-            model.Entities = contactRepo.GetAll(filter);
-
+            //model.Entities = contactRepo.GetAll(filter);
+            model.Entities = unitOfWork.ContactRepository.GetAllContacts(filter);
             // Paging
 
             int pageSize = 2;
@@ -60,9 +60,11 @@ namespace Contacts.Controllers
         {
             if (id != null)
             {
-                ContactRepository contactRepo = new ContactRepository();
+                UnitOfWork unitOfWork = new UnitOfWork();
+                //ContactRepository contactRepo = new ContactRepository();
 
-                Contact contact = contactRepo.GetById(id.Value);
+                //Contact contact = contactRepo.GetById(id.Value);
+                Contact contact = unitOfWork.ContactRepository.GetContactById(id.Value);
 
                 if (contact != null && contact.UserID == AuthenticationService.LoggedUser.ID)
                 {
@@ -95,9 +97,11 @@ namespace Contacts.Controllers
 
             if (id > 0) // Edit
             {
-                ContactRepository contactRepo = new ContactRepository();
+                //ContactRepository contactRepo = new ContactRepository();
 
-                Contact contact = contactRepo.GetById(id.Value);
+                //Contact contact = contactRepo.GetById(id.Value);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                Contact contact = unitOfWork.ContactRepository.GetContactById(id.Value);
 
                 if (contact != null && contact.UserID == AuthenticationService.LoggedUser.ID)
                 {
@@ -129,14 +133,17 @@ namespace Contacts.Controllers
 
             Contact contact;
 
-            ContactRepository contactRepo = new ContactRepository();
+            //ContactRepository contactRepo = new ContactRepository();
+            UnitOfWork unitOfWork = new UnitOfWork();
 
             if (model.ID > 0) // Edit
             {
-                contact = contactRepo.GetById(model.ID);
+                //contact = contactRepo.GetById(model.ID);
+                contact = unitOfWork.ContactRepository.GetContactById(model.ID);
 
                 if (contact == null || contact.UserID != model.UserID)
                 {
+                    unitOfWork.Dispose();
                     return HttpNotFound();
                 }
             }
@@ -155,7 +162,9 @@ namespace Contacts.Controllers
                 contact.LastName = model.LastName;
                 contact.Email = model.Email;
 
-                contactRepo.Save(contact);
+                //contactRepo.Save(contact);
+                unitOfWork.ContactRepository.Save(contact);
+                unitOfWork.Dispose();
 
                 return RedirectToAction("Index");
             }
@@ -167,9 +176,10 @@ namespace Contacts.Controllers
         {
             if (id != null)
             {
-                ContactRepository contactRepo = new ContactRepository();
-
-                Contact contact = contactRepo.GetById(id.Value);
+                //ContactRepository contactRepo = new ContactRepository();
+                //Contact contact = contactRepo.GetById(id.Value);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                Contact contact = unitOfWork.ContactRepository.GetContactById(id.Value);
 
                 if (contact != null && contact.UserID == AuthenticationService.LoggedUser.ID)
                 {
@@ -195,14 +205,14 @@ namespace Contacts.Controllers
         {
             if (id != null)
             {
-                ContactRepository contactRepo = new ContactRepository();
-
-                Contact contact = contactRepo.GetById(id.Value);
+                //ContactRepository contactRepo = new ContactRepository();
+                //Contact contact = contactRepo.GetById(id.Value);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                Contact contact = unitOfWork.ContactRepository.GetContactById(id.Value);
 
                 if (contact != null && contact.UserID == AuthenticationService.LoggedUser.ID)
                 {
-                    contactRepo.Delete(contact);
-
+                    unitOfWork.ContactRepository.DeleteContact(contact);
                     return RedirectToAction("Index");
                 }
             }

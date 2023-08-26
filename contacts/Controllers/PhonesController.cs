@@ -1,5 +1,4 @@
 ﻿using Contacts.Models;
-using Contacts.Repository;
 using Contacts.ViewModels.Phones;
 using Contacts.Services;
 using Contacts.Filters;
@@ -15,9 +14,10 @@ namespace Contacts.Controllers
         // Gets contact by id if contact's user is logged in
         private Contact GetUserContact(int contactId)
         {
-            ContactRepository contactRepo = new ContactRepository();
-
-            Contact contact = contactRepo.GetById(contactId);
+            //ContactRepository contactRepo = new ContactRepository();
+            //Contact contact = contactRepo.GetById(contactId);
+            UnitOfWork unitOfWork = new UnitOfWork();
+            Contact contact = unitOfWork.ContactRepository.GetContactById(contactId);
 
             return contact == null || contact.UserID != AuthenticationService.LoggedUser.ID ? null : contact;
         }
@@ -71,9 +71,10 @@ namespace Contacts.Controllers
 
             if (id > 0) // Edit
             {
-                PhoneRepository phoneRepo = new PhoneRepository();
-
-                Phone phone = phoneRepo.GetById(id.Value);
+                //PhoneRepository phoneRepo = new PhoneRepository();
+                //Phone phone = phoneRepo.GetById(id.Value);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                Phone phone = unitOfWork.PhoneRepository.GetPhoneById(id.Value);
 
                 if (phone != null && CheckIfContactsUserIsLogged(phone))
                 {
@@ -114,11 +115,13 @@ namespace Contacts.Controllers
 
             Phone phone;
 
-            PhoneRepository phoneRepo = new PhoneRepository();
+            //PhoneRepository phoneRepo = new PhoneRepository();
+            UnitOfWork unitOfWork = new UnitOfWork();
 
             if (model.ID > 0) // Edit
             {
-                phone = phoneRepo.GetById(model.ID);
+                //phone = phoneRepo.GetById(model.ID);
+                phone = unitOfWork.PhoneRepository.GetPhoneById(model.ID);
 
                 if (phone == null || phone.ContactID != model.ContactID)
                 {
@@ -136,7 +139,8 @@ namespace Contacts.Controllers
 
             phone.PhoneNumber = model.PhoneNumber;
 
-            phoneRepo.Save(phone);
+            //phoneRepo.Save(phone);
+            unitOfWork.PhoneRepository.Save(phone);
 
             return RedirectToAction("Index", new { id = phone.ContactID });
         }
@@ -145,9 +149,10 @@ namespace Contacts.Controllers
         {
             if (id != null)
             {
-                PhoneRepository phoneRepo = new PhoneRepository();
-
-                Phone phone = phoneRepo.GetById(id.Value);
+                //PhoneRepository phoneRepo = new PhoneRepository();
+                //Phone phone = phoneRepo.GetById(id.Value);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                Phone phone = unitOfWork.PhoneRepository.GetPhoneById(id.Value);
 
                 if (phone != null && CheckIfContactsUserIsLogged(phone))
                 {
@@ -173,13 +178,15 @@ namespace Contacts.Controllers
         {
             if (id != null)
             {
-                PhoneRepository phoneRepo = new PhoneRepository();
-
-                Phone phone = phoneRepo.GetById(id.Value);
+                //PhoneRepository phoneRepo = new PhoneRepository();
+                //Phone phone = phoneRepo.GetById(id.Value);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                Phone phone = unitOfWork.PhoneRepository.GetPhoneById(id.Value);
 
                 if (phone != null && CheckIfContactsUserIsLogged(phone))
                 {
-                    phoneRepo.Delete(phone);
+                    //phoneRepo.Delete(phone);
+                    unitOfWork.PhoneRepository.DeletePhone(phone);
 
                     return RedirectToAction("Index", new { id = phone.ContactID });
                 }

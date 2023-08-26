@@ -1,5 +1,5 @@
 ﻿using Contacts.Models;
-using Contacts.Repository;
+using Contacts.Services;
 using System.Linq;
 using System.Web;
 
@@ -23,10 +23,10 @@ namespace Contacts.Services
 
         public static void AuthenticateUser(string username, string password)
         {
-            UserRepository userRepo = new UserRepository();
-
-            User user = userRepo.GetAll(u => u.Username == username && u.Password == password).FirstOrDefault();
-
+            //UserRepository userRepo = new UserRepository();
+            //User user = userRepo.GetAll(u => u.Username == username && u.Password == password).FirstOrDefault();
+            UnitOfWork unitOfWork = new UnitOfWork();
+            User user = unitOfWork.UserRepository.GetAllUsers(u => u.Username == username && u.Password == password).FirstOrDefault();
             if (user != null)
             {
                 LoggedUser = user;
